@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMap - Items</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/item-exchange.css}">
+</head>
+<body>
+    <!-- Include the header -->
+    <div th:replace="header :: header"></div>
+
+    <div class="container main-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="display-4 fw-bold gradient-text mb-0">Items Exchange</h1>
+            <a th:if="${isLoggedIn}" th:href="@{/ecomap/items/new}" class="btn btn-glass">
+                Add New Item
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <div th:each="item : ${items}" class="col-md-4">
+                <div class="card h-100 shadow-sm item-card shadow-hover">
+                    <div class="card-img-top position-relative">
+                        <img th:if="${item.imageUrl}" th:src="${item.imageUrl}" class="img-fluid" alt="Item Image">
+                        <div th:unless="${item.imageUrl}" class="placeholder-img d-flex align-items-center justify-content-center">
+                            No Image
+                        </div>
+                        <span class="category-badge" th:text="${item.category}"></span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.title}"></h5>
+                        <p class="card-text text-muted" th:text="${item.description}"></p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-flex align-items-center">
+                            <small class="text-muted" th:text="${item.userEmail}"></small>
+                        </div>
+                        <a th:href="@{/ecomap/items/{id}(id=${item.id})}" class="btn btn-glass w-100 mt-2">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
