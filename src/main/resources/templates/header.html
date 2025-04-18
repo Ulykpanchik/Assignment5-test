@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/ecomap}">
+                    EcoMap
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/ecomap/items}">
+                                Item Exchange
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/ecomap/partners}">
+                                Partners
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <a th:href="${isLoggedIn} ? @{/ecomap/profile} : @{/ecomap/login}" 
+                           class="btn btn-glass">
+                            <span th:text="${isLoggedIn} ? 'Profile' : 'Login'"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+</body>
+</html> 

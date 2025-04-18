@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMap - Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<body>
+    <!-- Include the header -->
+    <div th:replace="header :: header"></div>
+
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h1 class="gradient-text mb-4">User Profile</h1>
+                        <div class="mb-3">
+                            <strong>Username:</strong> <span th:text="${user.username}"></span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Email:</strong> <span th:text="${user.email}"></span>
+                        </div>
+                        <div class="mb-4">
+                            <a th:href="@{/ecomap/profile/edit}" class="btn btn-glass">Edit Profile</a>
+                        </div>
+
+                        <h4 class="mb-3">Change Password</h4>
+                        <form th:action="@{/ecomap/profile/change-password}" method="post" class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">New Password:</label>
+                                <input type="password" name="newPassword" class="form-control" required/>
+                            </div>
+                            <button type="submit" class="btn btn-glass">Change Password</button>
+                        </form>
+
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/ecomap/logout}" class="btn btn-glass">Logout</a>
+                            <a th:href="@{/ecomap}" class="btn btn-glass">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="gradient-text mb-0">Your Items</h2>
+                    <a th:href="@{/ecomap/items/new}" class="btn btn-glass">Add New Item</a>
+                </div>
+
+                <div class="row g-4">
+                    <div th:each="item : ${items}" class="col-md-4">
+                        <div class="card h-100 shadow-sm shadow-hover">
+                            <a th:href="@{/ecomap/items/{id}(id=${item.id})}" class="text-decoration-none">
+                                <div class="card-img-top position-relative">
+                                    <img th:if="${item.imageUrl}" th:src="${item.imageUrl}" class="img-fluid" alt="Item Image"/>
+                                    <div th:unless="${item.imageUrl}" class="placeholder-img d-flex align-items-center justify-content-center">
+                                        No Image
+                                    </div>
+                                    <span class="category-badge" th:text="${item.category}"></span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${item.title}"></h5>
+                                    <p class="card-text text-muted" th:text="${item.description}"></p>
+                                </div>
+                            </a>
+                            <!-- Показываем кнопки редактирования только если email пользователя совпадает с email предмета -->
+                            <div class="card-footer bg-transparent border-0" 
+                                 th:if="${item.userEmail == user.email}">
+                                <div class="d-flex gap-2">
+                                    <a th:href="@{/ecomap/items/edit/{id}(id=${item.id})}" 
+                                       class="btn btn-glass btn-sm flex-grow-1">Edit</a>
+                                    <a th:href="@{/ecomap/items/delete/{id}(id=${item.id})}" 
+                                       class="btn btn-glass btn-sm text-danger flex-grow-1"
+                                       onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
